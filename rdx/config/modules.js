@@ -55,6 +55,7 @@ function getAdditionalModulePaths(options = {}) {
  * @param {*} options
  */
 function getWebpackAliases(options = {}) {
+  const srcAlias = "@"
   const baseUrl = options.baseUrl;
 
   if (!baseUrl) {
@@ -66,6 +67,7 @@ function getWebpackAliases(options = {}) {
   if (path.relative(paths.appPath, baseUrlResolved) === '') {
     return {
       src: paths.appSrc,
+      [srcAlias]: paths.appSrc,
     };
   }
 }
