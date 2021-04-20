@@ -1,0 +1,49 @@
+$nav-vertical-gap: 10px;
+
+.App-header {
+  padding-left: 240px;
+  height: 60px;
+  box-shadow: 0 2px 3px 1px rgba(100, 100, 100, 0.2);
+
+  .navbar {
+    display: inline-block;
+    line-height: 60px;
+
+    ul.nav-list {
+      list-style-type: none;
+      width: 100%;
+
+      li {
+        display: inline-block;
+        position: relative;
+        line-height: 40px;
+        padding: 0 20px;
+        margin: 0 $nav-vertical-gap / 2;
+
+        a {
+          color: black;
+          
+          &::after {
+            content: " ";
+            position: absolute;
+            left: 0;
+            height: 40px;
+            width: 100%;
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+
+  input.search[type='search'] {
+    font-size: 1em;
+    border: 1px solid rgba(100, 100, 100, 0.8);
+    border-radius: 3px;
+    margin-left: 30px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
