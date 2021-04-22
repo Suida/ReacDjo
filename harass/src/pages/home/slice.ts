@@ -1,4 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction
+} from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
 
 export interface Article {
@@ -9,18 +12,22 @@ export interface Article {
   modifiedAt: dayjs.Dayjs,
 };
 
+const initialState: {
+  articles: Article[],
+} = {
+  articles: [],
+};
+
 export const slice = createSlice({
   name: 'home',
-  initialState: {
-    articles: [],
-  },
+  initialState,
   reducers: {
-    updateArticles: (state, action) => {
+    updateArticles: (state, action: PayloadAction<Article[]>) => {
       state.articles = action.payload;
     },
     clearArticles: (state) => {
       state.articles = [];
-    }
+    },
   }
 });
 

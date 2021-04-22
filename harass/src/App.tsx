@@ -140,14 +140,14 @@ export default () => {
       </nav>
       <main className={cls(styles.main, classes.main)}>
         <Switch>
-          <Route path="/">
-            <HomePage />
-          </Route>
           <Route path="/article">
             <ArticlePage />
           </Route>
           <Route path="/lab">
             <LabPage />
+          </Route>
+          <Route path="/">
+            <HomePage />
           </Route>
         </Switch>
       </main>
