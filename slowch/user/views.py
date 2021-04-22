@@ -4,12 +4,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from slowch.models import BaseMixins
 from .models import Account
 from . import serializers
 
 
-class AccountView(ModelViewSet, BaseMixins):
+class AccountView(ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = serializers.AccountSerializer
 

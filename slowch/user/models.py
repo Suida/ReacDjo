@@ -19,3 +19,6 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.IntegerField(choices=Gender.choices, default=Gender.UNKNOWN)
     role = models.IntegerField(choices=Role.choices, default=Role.NORMAL)
+
+    def __str__(self) -> str:
+        return self.user.username
