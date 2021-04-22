@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Link,
   Switch,
@@ -17,18 +17,39 @@ import {
   ListItemText,
   Hidden,
   SwipeableDrawer,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
 import cls from 'classnames';
-import Home from '@/pages/home/index';
+import HomePage from '@/pages/home';
+import ArticlePage from '@/pages/article';
+import LabPage from '@/pages/lab';
 import styles from './App.module.scss';
 
+const useStyles = makeStyles((theme) => createStyles({
+  main: {
+    [theme.breakpoints.down('xs')]: {
+      marginTop: "48px",
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: "64px",
+    },
+  }
+}))
+
 export default () => {
+  const classes = useStyles();
   const location = useLocation();
   const [drawerState, setDrawerState] = useState<{
     open: boolean,
   }>({
     open: false,
   });
+
+  const toggleDrawer = useCallback((open?: boolean) => setDrawerState({
+    ...drawerState,
+    open: open === undefined? !open: open,
+  }), [drawerState])
 
   const routes = [
     {
@@ -58,7 +79,7 @@ export default () => {
             component={Link}
             to="/"
           >
-            <Icon>star</Icon>
+            <i>ReacDjo</i>
           </Button>
           <Hidden xsDown>
             <nav
@@ -82,7 +103,7 @@ export default () => {
             </nav>
           </Hidden>
           <Hidden smUp>
-            <IconButton className={styles.menuIcon} onClick={() => setDrawerState({...drawerState, open: true})}>
+            <IconButton className={styles.menuIcon} onClick={() => toggleDrawer()}>
               <Icon>menu</Icon>
             </IconButton>
           </Hidden>
@@ -95,12 +116,19 @@ export default () => {
         <SwipeableDrawer
           anchor={"top"}
           open={drawerState.open}
-          onClose={() => setDrawerState({...drawerState, open: false})}
+          onClose={() => toggleDrawer(false)}
           onOpen={(e) => console.log(e)}
         >
           <List>
             {routes.map(({to, text, icon}, idx) => (
-              <ListItem button component={Link} to={to} key={to} divider={idx !== routes.length - 1}>
+              <ListItem
+                button
+                component={Link}
+                to={to}
+                key={to}
+                divider={idx !== routes.length - 1}
+                onClick={() => toggleDrawer(false)}
+              >
                 <ListItemIcon>
                   <Icon>{icon}</Icon>
                 </ListItemIcon>
@@ -110,16 +138,16 @@ export default () => {
           </List>
         </SwipeableDrawer>
       </nav>
-      <main style={{minHeight: '2000px'}}>
+      <main className={cls(styles.main, classes.main)}>
         <Switch>
           <Route path="/">
-            <Home />
+            <HomePage />
           </Route>
-          <Route path="/">
-            <Home />
+          <Route path="/article">
+            <ArticlePage />
           </Route>
-          <Route path="/">
-            <Home />
+          <Route path="/lab">
+            <LabPage />
           </Route>
         </Switch>
       </main>

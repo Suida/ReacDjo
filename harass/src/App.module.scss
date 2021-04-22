@@ -39,6 +39,7 @@ $menu-icon-width: 48px;
 
     .logo {
       padding-left: 30px;
+      padding-right: 30px;
     }
 
     .menu-icon {
@@ -47,6 +48,10 @@ $menu-icon-width: 48px;
       color: $app-bar-color;
       width: $menu-icon-width;
     }
+  }
+
+  .main {
+    min-height: 2000px;
   }
 }
 
