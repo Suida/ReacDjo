@@ -1,11 +1,13 @@
 import { useEffect, } from 'react';
-import { useDispatch, } from 'react-redux';
 import {
   Grid,
   makeStyles,
   createStyles,
   Theme,
 } from '@material-ui/core';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { ArticleCard, Article } from '@/components/Article';
+import { selectArticles, } from './slice';
 import { fetchArticles, } from './saga';
 
 const spacingFactor = 2;
@@ -26,16 +28,22 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 export default () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const articles = useAppSelector(selectArticles);
+
   useEffect(() => {
     dispatch(fetchArticles());
   }, []);
+
+  console.log(articles);
 
   return (
     <div className={classes.root}>
       <Grid container spacing={spacingFactor} alignItems={"center"} justify={"center"}>
         <Grid className={classes.main} item xs={12} md={9} lg={6}>
-
+          {articles && articles.map((article: Article) => {
+            <ArticleCard article={article} />
+          })}
         </Grid>
         <Grid className={classes.aside} item xs={12} md={3}>
 
