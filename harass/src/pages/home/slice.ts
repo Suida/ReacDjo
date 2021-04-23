@@ -1,7 +1,4 @@
-import {
-  createSlice,
-  PayloadAction
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
 
 export interface Article {

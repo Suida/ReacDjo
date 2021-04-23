@@ -1,18 +1,12 @@
-import {
-  useEffect,
-} from 'react';
-import {
-  useDispatch,
-} from 'react-redux';
+import { useEffect, } from 'react';
+import { useDispatch, } from 'react-redux';
 import {
   Grid,
   makeStyles,
   createStyles,
   Theme,
 } from '@material-ui/core';
-import {
-  fetchArticles,
-} from './saga';
+import { fetchArticles, } from './saga';
 
 const spacingFactor = 2;
 
@@ -34,7 +28,6 @@ export default () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(fetchArticles());
     dispatch(fetchArticles());
   }, []);
 
