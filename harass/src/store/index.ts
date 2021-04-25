@@ -8,10 +8,12 @@ import { all, } from 'redux-saga/effects';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import homeReducer from '@/pages/home/slice';
 import homeSaga from '@/pages/home/saga';
+import apiReducer from '@/api/slice';
 
 const rootReducer = combineReducers({
   home: homeReducer,
-})
+  api: apiReducer,
+});
 
 const sagaMiddleware = createSagaMiddleware();
 

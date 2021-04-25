@@ -5,15 +5,15 @@ import {
   all,
 } from 'redux-saga/effects';
 import dayjs from 'dayjs';
+import request from '@/api/request';
 import { Article } from '@/components/Article';
 import { updateArticles } from './slice';
-import axios from 'axios';
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://192.168.101.5:8000";
 
 function* _fetchArticles() {
   try {
-    const res = yield call(axios.get, `${API_URL}/article/`)
+    const res = yield call(request.get, `${API_URL}/article/`)
     const articles: Article[] = (res.data as any[]).map(({
       raw_content,
       html_content,
