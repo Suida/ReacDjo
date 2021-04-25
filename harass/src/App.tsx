@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import {
   Link,
   Switch,
@@ -21,12 +21,19 @@ import {
   createStyles,
 } from '@material-ui/core';
 import cls from 'classnames';
-import HomePage from '@/pages/home';
-import ArticlePage from '@/pages/article';
-import LabPage from '@/pages/lab';
+import ProgressBar from '@/components/ProgressBar';
 import styles from './App.module.scss';
 
+const HomePage = lazy(() => import('@/pages/home'));
+const ArticlePage = lazy(() => import('@/pages/article'));
+const LabPage = lazy(() => import('@/pages/lab'));
+
 const useStyles = makeStyles((theme) => createStyles({
+  navDrawer: {
+    '& .MuiList-root': {
+      width: '280px',
+    },
+  },
   main: {
     [theme.breakpoints.down('xs')]: {
       marginTop: "48px",
@@ -71,6 +78,7 @@ export default () => {
 
   return (
     <div className={styles.app}>
+      <ProgressBar />
       <AppBar>
         <Toolbar className={styles.toolbar}>
           <Button
@@ -81,7 +89,7 @@ export default () => {
           >
             <i>ReacDjo</i>
           </Button>
-          <Hidden xsDown>
+          <Hidden smDown>
             <nav
               className={styles.navbar}
             >
@@ -102,7 +110,7 @@ export default () => {
               ))}
             </nav>
           </Hidden>
-          <Hidden smUp>
+          <Hidden mdUp>
             <IconButton className={styles.menuIcon} onClick={() => toggleDrawer()}>
               <Icon>menu</Icon>
             </IconButton>
@@ -114,10 +122,11 @@ export default () => {
         className={styles.navbar}
       >
         <SwipeableDrawer
-          anchor={"top"}
+          anchor={"right"}
           open={drawerState.open}
           onClose={() => toggleDrawer(false)}
           onOpen={(e) => console.log(e)}
+          className={classes.navDrawer}
         >
           <List>
             {routes.map(({to, text, icon}, idx) => (
@@ -138,17 +147,13 @@ export default () => {
           </List>
         </SwipeableDrawer>
       </nav>
-      <main className={cls(styles.main, classes.main)}>
+      <main className={classes.main}>
         <Switch>
-          <Route path="/article">
-            <ArticlePage />
-          </Route>
-          <Route path="/lab">
-            <LabPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
+          <Suspense fallback={null}>
+            <Route path="/article" component={ArticlePage } />
+            <Route path="/lab" component={LabPage} />
+            <Route exact path="/" component={HomePage} />
+          </Suspense>
         </Switch>
       </main>
       <footer></footer>
