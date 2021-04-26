@@ -21,9 +21,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   main: {
     maxWidth: "1200px",
+    minWidth: '240px',
   },
   aside: {
     maxWidth: "600px",
+    minWidth: '240px',
   },
 }));
 
@@ -34,7 +36,7 @@ export default () => {
 
   useEffect(() => {
       if (articles.length === 0) dispatch(fetchArticles());
-  });
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -51,12 +53,14 @@ export default () => {
             <Button
               variant="contained"
               color="primary"
+              size="small"
               onClick={() => dispatch(updateArticles([...articles, ...articles]))}
             >Clone Articles</Button>
             <Divider />
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
+              size="small"
               onClick={() => dispatch(fetchArticles())}
             >Fetch Articles</Button>
         </Grid>

@@ -1,4 +1,4 @@
-import { useState, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Link,
   Switch,
@@ -19,6 +19,7 @@ import {
   SwipeableDrawer,
   makeStyles,
   createStyles,
+  useTheme,
 } from '@material-ui/core';
 import cls from 'classnames';
 import ProgressBar from '@/components/ProgressBar';
@@ -29,6 +30,46 @@ const ArticlePage = lazy(() => import('@/pages/article'));
 const LabPage = lazy(() => import('@/pages/lab'));
 
 const useStyles = makeStyles((theme) => createStyles({
+  toolbar: {
+    '& .MuiButton-root': {
+      color: theme.palette.primary.contrastText,
+
+      '& .MuiButton-label': {
+        marginLeft: '10px',
+        marginRight: '10px',
+        paddingLeft: '5px',
+        paddingRight: '5px',
+      },
+
+      '&.activated': {
+        fontWeight: 'bolder',
+
+        '& .MuiButton-label': {
+          position: 'relative',
+
+          '&::after': {
+            content: '""',
+            width: '100%',
+            height: '2px',
+            backgroundColor: theme.palette.primary.contrastText,
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: '-2px',
+          },
+        },
+      },
+    },
+  },
+  logo: {
+    paddingLeft: '30px',
+    paddingRight: '30px',
+  },
+  menuIcon: {
+    color: theme.palette.primary.contrastText,
+    marginLeft: 'auto',
+    width: '48px',
+  },
   navDrawer: {
     '& .MuiList-root': {
       width: '280px',
@@ -41,7 +82,7 @@ const useStyles = makeStyles((theme) => createStyles({
     [theme.breakpoints.up('sm')]: {
       marginTop: "64px",
     },
-  }
+  },
 }))
 
 export default () => {
@@ -51,6 +92,12 @@ export default () => {
     open: boolean,
   }>({
     open: false,
+  });
+
+  const theme = useTheme();
+
+  useEffect(() => {
+    console.log(theme);
   });
 
   const toggleDrawer = useCallback((open?: boolean) => setDrawerState({
@@ -77,12 +124,12 @@ export default () => {
   ]
 
   return (
-    <div className={styles.app}>
+    <div>
       <ProgressBar />
       <AppBar>
-        <Toolbar className={styles.toolbar}>
+        <Toolbar className={classes.toolbar}>
           <Button
-            className={styles.logo}
+            className={classes.logo}
             size="large"
             component={Link}
             to="/"
@@ -90,9 +137,7 @@ export default () => {
             <i>ReacDjo</i>
           </Button>
           <Hidden smDown>
-            <nav
-              className={styles.navbar}
-            >
+            <nav>
               {routes.map(({to, text}) => (
                 <Button
                   size="large"
@@ -111,16 +156,14 @@ export default () => {
             </nav>
           </Hidden>
           <Hidden mdUp>
-            <IconButton className={styles.menuIcon} onClick={() => toggleDrawer()}>
+            <IconButton className={classes.menuIcon} onClick={() => toggleDrawer()}>
               <Icon>menu</Icon>
             </IconButton>
           </Hidden>
 
         </Toolbar>
       </AppBar>
-      <nav
-        className={styles.navbar}
-      >
+      <nav>
         <SwipeableDrawer
           anchor={"right"}
           open={drawerState.open}

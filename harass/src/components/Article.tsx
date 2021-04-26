@@ -13,18 +13,27 @@ import {
   makeStyles,
   createStyles,
   Theme,
+  useTheme,
 } from '@material-ui/core';
 import { formatDateTime } from '@/utils';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     root: {
-      width: '100%',
-      marginBottom: '10px',
+      marginBottom: '15px',
+    },
+    header: {
+      paddingBottom: '10px',
     },
     content: {
       paddingTop: '0px',
       paddingBottom: '0px',
+    },
+    contentTypography: {
+      display: '-webkit-box',
+      overflow: 'hidden',
+      '-webkit-line-clamp': 3,
+      '-webkit-box-orient': 'vertical',
     },
     actions: {
       paddingTop: '0px',
@@ -62,14 +71,19 @@ export const ArticleCard: FC<ArticleCardProps> = ({
   const classes = useStyles();
 
   return (
-    <Card variant="outlined" className={cls(classes.root, className)} {...rest}>
+    <Card elevation={2} className={cls(classes.root, className)} {...rest}>
       <CardHeader
+        className={classes.header}
         title={<Typography variant="h5">{article.title}</Typography>}
         subheader={<Typography variant="body2">落笔于 {formatDateTime(article.createdAt)}</Typography>}
       />
       <CardContent className={classes.content}>
-        <Typography variant="body1" component="p">
-          {article.rawContent.slice(0, 150)}
+        <Typography
+          className={classes.contentTypography}
+          variant="body1"
+          component="p"
+        >
+          {article.rawContent}
           <b> . . .</b>
         </Typography>
       </CardContent>
