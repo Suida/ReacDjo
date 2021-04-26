@@ -21,9 +21,10 @@ import {
   createStyles,
   useTheme,
 } from '@material-ui/core';
+import { GitHub } from '@material-ui/icons';
 import cls from 'classnames';
 import ProgressBar from '@/components/ProgressBar';
-import styles from './App.module.scss';
+import config from '@/config';
 
 const HomePage = lazy(() => import('@/pages/home'));
 const ArticlePage = lazy(() => import('@/pages/article'));
@@ -33,6 +34,11 @@ const useStyles = makeStyles((theme) => createStyles({
   toolbar: {
     '& .MuiButton-root': {
       color: theme.palette.primary.contrastText,
+      [theme.breakpoints.up('sm')]: {
+        lineHeight: (theme.mixins.toolbar[theme.breakpoints.up('sm')] as any).minHeight + 'px',
+      },
+      paddingTop: 0,
+      paddingBottom: 0,
 
       '& .MuiButton-label': {
         marginLeft: '10px',
@@ -55,15 +61,31 @@ const useStyles = makeStyles((theme) => createStyles({
             position: 'absolute',
             left: 0,
             right: 0,
-            bottom: '-2px',
+            bottom: '25%',
           },
         },
       },
     },
   },
+  nav: {
+    [theme.breakpoints.up('sm')]: {
+      height:  (theme.mixins.toolbar[theme.breakpoints.up('sm')] as any).minHeight + 'px',
+    }
+  },
   logo: {
     paddingLeft: '30px',
     paddingRight: '30px',
+  },
+  iconBar: {
+    marginRight: '36px',
+
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 'auto',
+    },
+
+    '& .MuiIconButton-root': {
+      color: theme.palette.primary.contrastText,
+    },
   },
   menuIcon: {
     color: theme.palette.primary.contrastText,
@@ -75,13 +97,11 @@ const useStyles = makeStyles((theme) => createStyles({
       width: '280px',
     },
   },
+  offset: {
+    marginBottom: theme.spacing(1),
+    ...theme.mixins.toolbar,
+  },
   main: {
-    [theme.breakpoints.down('xs')]: {
-      marginTop: "48px",
-    },
-    [theme.breakpoints.up('sm')]: {
-      marginTop: "64px",
-    },
   },
 }))
 
@@ -137,7 +157,7 @@ export default () => {
             <i>ReacDjo</i>
           </Button>
           <Hidden smDown>
-            <nav>
+            <nav className={classes.nav}>
               {routes.map(({to, text}) => (
                 <Button
                   size="large"
@@ -155,12 +175,16 @@ export default () => {
               ))}
             </nav>
           </Hidden>
+          <nav className={classes.iconBar}>
+            <IconButton component={'a'} href={config.githubRepoUrl}>
+              <GitHub />
+            </IconButton>
+          </nav>
           <Hidden mdUp>
             <IconButton className={classes.menuIcon} onClick={() => toggleDrawer()}>
               <Icon>menu</Icon>
             </IconButton>
           </Hidden>
-
         </Toolbar>
       </AppBar>
       <nav>
@@ -190,6 +214,7 @@ export default () => {
           </List>
         </SwipeableDrawer>
       </nav>
+      <div className={classes.offset} />
       <main className={classes.main}>
         <Switch>
           <Suspense fallback={null}>
