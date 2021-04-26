@@ -32,7 +32,6 @@ function* _fetchArticles() {
   catch(error) {
     console.log(error);
   }
-
 }
 
 export const FETCH_ARTICLES = "FETCH_ARTICLES";
