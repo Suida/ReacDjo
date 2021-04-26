@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { useState, FC } from 'react';
 import dayjs from 'dayjs';
 import cls from 'classnames';
 import {
@@ -24,10 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       paddingBottom: '10px',
+      cursor: 'pointer',
     },
     content: {
       paddingTop: '0px',
       paddingBottom: '0px',
+      cursor: 'pointer',
     },
     contentTypography: {
       display: '-webkit-box',
@@ -39,6 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: '0px',
       '& .MuiIcon-root': {
         fontSize: '1.2rem',
+        transition: 'color .3s ease',
+
+        '&:hover': {
+          color: theme.palette.secondary.main,
+        },
       },
     },
     detailButton: {
@@ -69,9 +76,16 @@ export const ArticleCard: FC<ArticleCardProps> = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const [hovered, setHoverd] = useState(false);
 
   return (
-    <Card elevation={2} className={cls(classes.root, className)} {...rest}>
+    <Card
+      elevation={hovered? 4: 2}
+      className={cls(classes.root, className)}
+      onMouseEnter={() => setHoverd(true)}
+      onMouseLeave={() => setHoverd(false)}
+      {...rest}
+    >
       <CardHeader
         className={classes.header}
         title={<Typography variant="h5">{article.title}</Typography>}
